@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>Madrasa_Tic</title>
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <link rel="stylesheet" href="{% static 'home_user/form.css' %}">
+
+
+</head>
+
+<!-- header section ends -->
+<body>
+   <div class="main-container">
+
+  <div class="formulaire">
+
+
+       <form  method="post" class="form" enctype="multipart/form-data">{% csrf_token %}
+
+
+         <div class="title">
+          Ajouter catégorie
+         </div>
+          <div class="inputfield">
+             <label>Nom</label>
+             <input type="text" name="titre" class="input" required>
+          </div>
+
+          <div  class="photo">
+             <input type="file" required name="image" class="" >
+          </div>
+          <div class="inputfield">
+             <label>Description</label>
+             <textarea class="textarea" name="description" required></textarea >
+          </div>
+           <div class="inputfield">
+          <label>Service</label>
+          <div class="custom_select">
+
+            <select name="selected_service">
+                {% if ser %}
+
+                 <option value=""></option>
+                    {% for ser in ser %}
+                    <option value="{{ ser.id }}" required>{{ ser.name }}</option>
+
+                {% endfor %}
+            {% endif %}
+            </select>
+          </div>
+       </div>
+
+        <div class="inputfield">
+
+        <button type="submit"  class="btn" value="0" name="save" >Ajouter</button>
+
+
+        </div>
+
+
+        <div class="inputfield">
+
+        <button type="submit"  class="btn" value="0" name="cancel" >Annuler</button>
+
+
+        </div>
+
+
+
+
+
+        </form>
+ </div>
+       </div>
+
+  <script src="{% static 'home_user/form.js' %}"></script>
+</body>
+</html>

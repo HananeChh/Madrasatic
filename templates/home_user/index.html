@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madrasa_Tic</title>
+
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{% static 'home_user/style.css' %}/">
+
+</head>
+<body>
+
+<!-- header section starts  -->
+
+<header class="header">
+
+    <a href="#" class="logo"><img src="{% static 'welcome/images/logo.png' %}" width="80px" height="40px">Madrasa_Tic </a>
+
+    <nav class="navbar">
+        <a href="#home">accueil</a>
+        <a href="#features">Signalements</a>
+        <a href="#review">annonces</a>
+         <a href="{% url 'historique' %}">historique</a>
+        {% if user.is_responsable %}
+         <a href="{% url 'manage' %}">Dashboard</a>
+        {% endif %}
+    {% if user.is_service %}
+         <a href="{% url 'services' %}">Dashboard</a>
+    {% endif %}
+    </nav>
+
+    <div class="icons">
+        <div class="fas fa-bars" id="menu-btn"></div>
+        <div class="fas fa-search" id="search-btn"></div>
+        <div class="fas fa-bell" id="cart-btn"></div>
+        <div class="fas fa-user" id="login-btn"></div>
+    </div>
+
+    <form action="" class="search-form">
+        <input type="search" id="search-box" placeholder="Rechercher ici...">
+        <label for="search-box" class="fas fa-search"></label>
+
+    </form>
+
+
+     <div class="shopping-cart">
+         {% if notification %}
+         {% for noti in notification %}
+          <div class="box">
+              <form method="post"> {% csrf_token %}
+            <button type="submit" name="sup" value="{{ noti.pk }}" ><i class="fas fa-trash"></i></button>
+
+            <div class="content">
+                <h3>{{ noti.sig.titre }}</h3>
+                <span class="quantity">{{ noti.message }}</span>
+            </div>
+     </form>
+        </div>
+
+              {% endfor %}
+     {% endif %}
+
+        {% if notif %}
+         {% for noti in notif %}
+          <div class="box">
+              <form method="post"> {% csrf_token %}
+            <button type="submit" name="sup" value="{{ noti.pk }}" ><i class="fas fa-trash"></i></button>
+
+            <div class="content">
+                <h3>{{ noti.an.titre }}</h3>
+                <span class="quantity">{{ noti.message }}</span>
+            </div>
+     </form>
+        </div>
+
+              {% endfor %}
+     {% endif %}
+     </div>
+
+
+    <div  class="login-form">
+        <a href="{% url 'logout' %}" ><button value="logout" class="btn_header">logout</button></a>
+
+        <a href="{% url 'profile' %}"><button value="logout" class="btn_header">profile</button></a>
+    </div>
+
+
+
+</header>
+
+<!-- header section ends -->
+
+<!-- home section starts  -->
+
+<section class="home" id="home">
+
+    <div class="content">
+
+        <h3>Vous avez <span>un problème </span> signaler le</h3>
+        <p>Avec le site Madrasa_Tic les problémes toujours solver!</p>
+        <a href="{% url 'report_problem' %}" class="btn">Signaler problème</a>
+    </div>
+
+</section>
+
+<!-- home section ends -->
+<!-- review section starts  -->
+
+<section class="review" id="review">
+
+    <h1 class="heading"> Les <span>Annonces</span> </h1>
+
+    <div class="swiper review-slider">
+
+        <div class="swiper-wrapper">
+        {% if afficher_annonce %}
+ {% for annonce in  afficher_annonce %}
+     {%if annonce.equal %}
+            <div class="swiper-slide box">
+                {% if annonce.image %}
+                <img src="{{ annonce.image.url }}" alt="">
+                {% endif %}
+                <h3>{{ annonce.titre }}</h3>
+
+
+
+                <a href="{% url 'annonce_content' id=annonce.pk %}" class="btn">voir plus</a>
+            </div>
+
+     {% endif %}
+{% endfor %}
+         {% endif %}
+
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- review section ends -->
+
+
+
+
+<!-- features section starts  -->
+
+<section class="features" id="features">
+
+    <h1 class="heading"> Les <span>Signalements</span> </h1>
+
+    <div class="box-container">
+       {%  if categorie %}
+        {% for cat in categorie %}
+        <div class="box">
+        {% if cat.image %}
+            <img src="{{ cat.image.url }}" alt="">
+            {% endif %}
+            <h3>{{ cat.name }}</h3>
+            <p>{{ cat.description }}</p>
+            <a href="{% url 'signals' id=cat.pk  %}" class="btn">voir plus</a>
+        </div>
+
+       {% endfor %}
+     {% endif %}
+    </div>
+
+</section>
+
+<!-- features section ends -->
+
+
+
+
+<!-- footer section ends -->
+
+<section class="footer">
+
+    <div class="share">
+        <a href="#" class="fab fa-facebook-f"></a>
+        <a href="#" class="fab fa-twitter"></a>
+        <a href="#" class="fab fa-instagram"></a>
+        <a href="#" class="fab fa-linkedin"></a>
+    </div>
+
+    <h1 class="credit"> created by <span> The Matrix </span> | all rights reserved! </h1>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="{% static 'home_user/index.js' %}"></script>
+
+</body>
+</html>
